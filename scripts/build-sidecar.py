@@ -33,11 +33,15 @@ def main() -> int:
     suffix = ".exe" if os.name == "nt" else ""
     source = orchestrator / "dist" / f"orchestrator{suffix}"
     destination = tauri_bin / f"orchestrator-{triple}{suffix}"
+    generic_destination = tauri_bin / f"orchestrator{suffix}"
     tauri_bin.mkdir(parents=True, exist_ok=True)
     shutil.copy2(source, destination)
+    shutil.copy2(source, generic_destination)
     if os.name != "nt":
         destination.chmod(0o755)
+        generic_destination.chmod(0o755)
     print(f"sidecar -> {destination}")
+    print(f"sidecar generic -> {generic_destination}")
     return 0
 
 
